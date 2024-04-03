@@ -1,7 +1,105 @@
 body {
-  height: 100vh;
-  background-image: url(./background.jpg);
+  /* Create a diagonal gradient background */
+  background: linear-gradient(to bottom right, skyblue, purple);
+  /* Optionally, set the background size to cover the entire viewport */
+  background-size: 100% 100%;
+  /* Optionally, prevent background repeat */
   background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  /* Optionally, fix the background position */
+  background-attachment: fixed;
+}
+
+.grid {
+  display: grid;
+  box-sizing: border-box;
+  grid-template: 1fr 1fr/ 1fr;
+  gap: 50px;
+  height: 100vh;
+  width: 100vw;
+  border: 2px solid black;
+}
+
+.grid-row-one {
+  display: grid;
+  grid: 1fr 4fr/ 1fr;
+  border: 2px solid white;
+}
+
+.grid-row-one > div:first-child {
+  display: flex;
+}
+
+.city-name {
+  display: flex;
+  align-items: end;
+  border: 2px solid green;
+}
+
+.city-weather {
+  display: grid;
+  grid: 1fr / 1fr 1fr;
+  border: 2px solid orange;
+}
+
+.city-temperature,
+.city-weather-details {
+  border: 2px solid darkkhaki;
+}
+
+.city-temperature {
+  display: grid;
+  grid: 1fr / 2fr 1fr;
+}
+
+.city-temperature-number {
+  border: 2px solid indigo;
+  font-size: 10rem;
+}
+
+.city-temperature-unit {
+  font-size: 2rem;
+  border: 2px solid pink;
+}
+
+.city-weather-details {
+  display: grid;
+  grid: repeat(3, 1fr) / repeat(3, 1fr);
+}
+
+.city-weather-type {
+  grid-column: 1 / 4;
+  border: 2px solid red;
+}
+
+.city-weather-detail {
+  border: 2px solid blue;
+}
+
+.grid-row-two {
+  display: grid;
+  grid: repeat(2, 1fr) / repeat(3, 1fr);
+  grid-template-areas:
+    'daily-hourly . .'
+    'forecast-one forecast-two forecast-three';
+  border: 2px solid rosybrown;
+}
+
+.select-daily-hourly {
+  grid-area: daily-hourly;
+  border: 2px solid rosybrown;
+}
+
+.forecast-one {
+  grid-area: forecast-one;
+  border: 2px solid rosybrown;
+}
+
+.forecast-two {
+  grid-area: forecast-two;
+  border: 2px solid rosybrown;
+}
+
+.forecast-three {
+  grid-area: forecast-three;
+  border: 2px solid rosybrown;
 }

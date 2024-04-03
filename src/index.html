@@ -4,7 +4,82 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="../dist/main.js"></script>
+    <script defer src="../dist/main.js"></script>
   </head>
-  <body></body>
+  <body>
+    <div class="grid">
+      <div class="grid-row-one">
+        <div>
+          <div class="city-name"><span>Newcastle, UK</span></div>
+          <div class="search">
+            <label for="search"></label>
+            <input type="search" id="search" name="search" />
+          </div>
+        </div>
+        <div class="city-weather">
+          <div class="city-temperature">
+            <div class="city-temperature-number">
+              <span>20°</span>
+            </div>
+            <div class="city-temperature-unit">
+              <div class="">°F</div>
+              <div>___</div>
+              <div class="">°C</div>
+            </div>
+          </div>
+          <div class="city-weather-details">
+            <div class="city-weather-type"><span>Sunny</span></div>
+            <div class="city-weather-detail">
+              <div class="detail-title">Feels Like</div>
+              <div class="detail-data">22°</div>
+            </div>
+            <div class="city-weather-detail">
+              <div class="detail-title">Wind</div>
+              <div class="detail-data">8mph</div>
+            </div>
+            <div class="city-weather-detail">
+              <div class="detail-title">Barometer</div>
+              <div class="detail-data">70cm</div>
+            </div>
+            <div class="city-weather-detail">
+              <div class="detail-title">Visibility</div>
+              <div class="detail-data">4km</div>
+            </div>
+            <div class="city-weather-detail">
+              <div class="detail-title">Humidity</div>
+              <div class="detail-data">60%</div>
+            </div>
+            <div class="city-weather-detail">
+              <div class="detail-title">Dew-Point</div>
+              <div class="detail-data">7°</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid-row-two">
+        <div class="select-daily-hourly">
+          <button class="daily-button">Daily</button
+          ><button class="daily-button">Hourly</button>
+        </div>
+        <div class="forecast-one">
+          <div class="forecast-day">Thursday</div>
+          <div class="forecast-high">20°</div>
+          <div class="forecast-low">16°</div>
+          <div class="forecast-weather-icon">icon</div>
+        </div>
+        <div class="forecast-two">
+          <div class="forecast-day">Friday</div>
+          <div class="forecast-high">21°</div>
+          <div class="forecast-low">12°</div>
+          <div class="forecast-weather-icon">icon</div>
+        </div>
+        <div class="forecast-three">
+          <div class="forecast-day">Saturday</div>
+          <div class="forecast-high">23°</div>
+          <div class="forecast-low">16°</div>
+          <div class="forecast-weather-icon">icon</div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
