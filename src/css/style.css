@@ -35,43 +35,43 @@ body {
   border: 2px solid green;
 }
 
-.city-weather {
+.weather-container {
   display: grid;
   grid: 1fr / 1fr 1fr;
   border: 2px solid orange;
 }
 
-.city-temperature,
+.temperature,
 .city-weather-details {
   border: 2px solid darkkhaki;
 }
 
-.city-temperature {
+.temperature {
   display: grid;
   grid: 1fr / 2fr 1fr;
 }
 
-.city-temperature-number {
+.temperature-number {
   border: 2px solid indigo;
   font-size: 10rem;
 }
 
-.city-temperature-unit {
+.temperature-unit {
   font-size: 2rem;
   border: 2px solid pink;
 }
 
-.city-weather-details {
+.weather-details {
   display: grid;
   grid: repeat(3, 1fr) / repeat(3, 1fr);
 }
 
-.city-weather-type {
+.weather-type {
   grid-column: 1 / 4;
   border: 2px solid red;
 }
 
-.city-weather-detail {
+.weather-detail {
   border: 2px solid blue;
 }
 
