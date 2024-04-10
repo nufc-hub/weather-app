@@ -1,6 +1,6 @@
 class Searcher {
-  constructor(searchElement) {
-    this.searchElement = searchElement;
+  constructor(elementID) {
+    this.searchElement = document.getElementById(elementID);
 
     // Makes sure that the 'this' inside the onSearch function always refers to the instance of the Search class.
     this.onSearch = this.onSearch.bind(this);
