@@ -4,6 +4,7 @@ import Searcher from './modules/searcher';
 import API from './modules/api';
 import UI from './modules/ui';
 import validateSearch from './modules/validation';
+import ErrorHandler from './modules/errorHandler';
 
 function init() {
   // Define selectors. These are the DOM elements.
@@ -39,30 +40,48 @@ function init() {
     errorElement: 'search-error-message',
   };
 
-  // Define the search element.
-  // const searchElement = document.getElementById('search');
-
-  //
-
   // Define the url.
   const url = 'https://api.weatherapi.com/v1/current.json';
   // Define the api key.
   const apiKey = '573237ec7c1e4149932133700241903';
+  // Define search regex
+  const searchRegex = /^[a-zA-Z\s'-]+$/;
 
   // Create class instances.
-  // Add search element as argument.
+  // New Searcher instance. Search element added as argument.
   const searcher = new Searcher(selectors.searchElement);
-  // Add url and apiKey variables as arguments
-  const api = new API(url, apiKey); // Add correct arguments in.
-  // Add selectors as argument.
+  // New API instance. url and apiKey variables added as arguments
+  const api = new API(url, apiKey);
+  // New UI instance. Selectors added as argument.
   const ui = new UI(selectors);
+  // New ErrorHandler instance. Error element added as argument.
+  const errorHandler = new ErrorHandler(selectors.errorElement);
 
   // On search, fetch weather data and update UI.
   searcher.onSearch(async () => {
-    // Get the search value
+    // Clear errorElement text in necessary.
+    if (selectors.errorElement) {
+      errorHandler.clearError();
+    }
+    // Get the search value.
     const searchValue = searcher.getSearchValue();
-    // Validate the search.
+    console.log(searchValue);
+    if (!searchValue) {
+      console.log('Add search value.');
+      errorHandler.displayError(
+        'Please enter a city name.',
+        selectors.errorElement
+      );
+    }
+    if (!searchRegex.test(searchValue)) {
+      console.log('Follow regex.');
+      errorHandler.displayError(
+        'Enter city in the format...',
+        selectors.errorElement
+      );
+    }
     if (validateSearch(searchValue, selectors.errorElement)) {
+      // Validate the search.
       // Add searchValue to buildUrl parameter.
       const fullApiURL = api.buildUrl(searchValue);
       console.log(fullApiURL);
