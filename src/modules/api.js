@@ -9,13 +9,15 @@ class API {
     return `${this.url}?key=${this.apiKey}&q=${searchValue}`;
   }
 
-  fetchData(fullURL) {
-    return fetch(fullURL, { mode: 'cors' })
+  // Fetches the provided URl
+  // Return value of buidlUrl can be used as argument.
+  fetchData(fullApiURL) {
+    return fetch(fullApiURL, { mode: 'cors' })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.statusText}`);
         }
-
+        // Parse the response.
         return response.json();
       })
       .catch((error) => {
@@ -23,3 +25,5 @@ class API {
       });
   }
 }
+
+export default API;
