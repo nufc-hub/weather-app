@@ -8,7 +8,11 @@ class Searcher {
 
   // Gets value of search bar input.
   getSearchValue() {
-    return this.searchElement.value;
+    if (this.searchElement.value === '') {
+      return false;
+    } else {
+      return this.searchElement.value;
+    }
   }
 
   // Clears the search bar.
