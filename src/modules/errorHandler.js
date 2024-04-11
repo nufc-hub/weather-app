@@ -1,7 +1,7 @@
 class ErrorHandler {
-  constructor(errorMessageElementID) {
+  constructor(errorElement) {
     // Get the error message element.
-    this.errorElement = document.getElementById(errorMessageElementID);
+    this.errorElement = document.getElementById(errorElement);
   }
 
   // Function for displaying error message.
