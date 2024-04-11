@@ -72,15 +72,13 @@ function init() {
         'Please enter a city name.',
         selectors.errorElement
       );
-    }
-    if (!searchRegex.test(searchValue)) {
+    } else if (!searchRegex.test(searchValue)) {
       console.log('Follow regex.');
       errorHandler.displayError(
-        'Enter city in the format...',
+        `Invalid location format. Please enter as 'City', 'City, State', 'City, Country' or 'Post/Zip code.`,
         selectors.errorElement
       );
-    }
-    if (validateSearch(searchValue, selectors.errorElement)) {
+    } else if (validateSearch(searchValue, selectors.errorElement)) {
       // Validate the search.
       // Add searchValue to buildUrl parameter.
       const fullApiURL = api.buildUrl(searchValue);
