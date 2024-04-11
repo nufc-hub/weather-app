@@ -9,7 +9,7 @@ import ErrorHandler from './modules/errorHandler';
 function init() {
   // Define selectors. These are the DOM elements.
   const selectors = {
-    // Weather
+    // Weather and weather details.
     city: 'city-name',
     country: 'country-name',
     temperature: 'temperature-number',
@@ -33,10 +33,10 @@ function init() {
     secondForecastIcon: 'second-forecast-icon',
     thirdForecastIcon: 'third-forecast-icon',
 
-    // Search element
+    // Search element.
     searchElement: 'search',
 
-    // Error Element
+    // Error Element.
     errorElement: 'search-error-message',
   };
 
@@ -64,8 +64,9 @@ function init() {
       errorHandler.clearError();
     }
     // Get the search value.
-    const searchValue = searcher.getSearchValue();
+    const searchValue = searcher.getSearchValue().trim();
     console.log(searchValue);
+    // If user enters an empty search value.
     if (!searchValue) {
       console.log('Add search value.');
       errorHandler.displayError(
@@ -73,6 +74,7 @@ function init() {
         selectors.errorElement
       );
     } else if (!searchRegex.test(searchValue)) {
+      // If user enters a search value that doesn't follow the set regex.
       console.log('Follow regex.');
       errorHandler.displayError(
         `Invalid location format. Please enter as 'City', 'City, State', 'City, Country' or 'Post/Zip code.`,
@@ -94,7 +96,36 @@ function init() {
         ui.updateTextContent('city', weatherData.location.name);
         ui.updateTextContent('country', weatherData.location.country);
       } catch (error) {
-        console.error(error);
+        if (error.message === 'No data found for the provided query') {
+          // Error message user receives.
+          errorHandler.displayError(
+            `Sorry, we couldn't find any weather data for the entered city. Please check the spelling or try another city.`
+          );
+          // Console error message.
+          console.error(`TypeError occurred: ${error.message}`);
+        }
+        if (error instanceof TypeError) {
+          // Error message user receives.
+          errorHandler.displayError(
+            `There has been an error. Our team is currently working to fix the problem.`
+          );
+          // Console error message.
+          console.error(`TypeError occurred: ${error.message}`);
+        } else if (error instanceof SyntaxError) {
+          // Error message user receives.
+          errorHandler.displayError(
+            `There has been an error. Our team is currently working to fix the problem.`
+          );
+          // Console error message.
+          console.error(`SyntaxError occurred: ${error.message}`);
+        } else {
+          // Error message user receives.
+          errorHandler.displayError(
+            `Sorry, we couldn't find any weather data for the entered city. Please check the spelling or try another city.`
+          );
+          // Console error message.
+          console.error(`An error has occurred: ${error.message}`);
+        }
       }
     }
   });
