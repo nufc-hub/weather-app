@@ -1,6 +1,6 @@
 // Function for search validation.
-function validateSearch(searchValue, messageElementID) {
-  const element = document.getElementById(messageElementID);
+function validateSearch(searchValue, errorElement) {
+  const element = document.getElementById(errorElement);
 
   // If the search value is missing show error message and return false.
   if (!searchValue) {
