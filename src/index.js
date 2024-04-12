@@ -19,7 +19,7 @@ function init() {
     barometer: 'barometer',
     visibility: 'visibility',
     humidity: 'humidity',
-    dewPoint: 'dew-point',
+    precipitation: 'precipitation',
     firstForecastDay: 'first-forecast-day',
     secondForecastDay: 'second-forecast-day',
     thirdForecastDay: 'third-forecast-day',
@@ -95,6 +95,26 @@ function init() {
         // Update city.
         ui.updateTextContent('city', weatherData.location.name);
         ui.updateTextContent('country', weatherData.location.country);
+        ui.updateTextContent('temperature', weatherData.current.temp_c);
+        ui.updateTextContent('weather', weatherData.current.condition.text);
+        ui.updateTextContent('feelsLike', weatherData.current.feelslike_c);
+        ui.updateTextContent('wind', weatherData.current.wind_kph);
+        ui.updateTextContent('barometer', weatherData.current.pressure_mb);
+        ui.updateTextContent('visibility', weatherData.current.vis_km);
+        ui.updateTextContent('humidity', weatherData.current.humidity);
+        ui.updateTextContent('precipitation', weatherData.current.precip_mm);
+        ui.updateTextContent('firstForecastDay', weatherData.location.name);
+        ui.updateTextContent('secondForecastDay', weatherData.location.name);
+        ui.updateTextContent('thirdForecastDay', weatherData.location.name);
+        ui.updateTextContent('firstForecastHigh', weatherData.location.name);
+        ui.updateTextContent('secondForecastHigh', weatherData.location.name);
+        ui.updateTextContent('thirdForecastHigh', weatherData.location.name);
+        ui.updateTextContent('firstForecastLow', weatherData.location.name);
+        ui.updateTextContent('secondForecastLow', weatherData.location.name);
+        ui.updateTextContent('thirdForecastLow', weatherData.location.name);
+        ui.updateTextContent('firstForecastIcon', weatherData.location.name);
+        ui.updateTextContent('secondForecastIcon', weatherData.location.name);
+        ui.updateTextContent('thirdForecastIcon', weatherData.location.name);
       } catch (error) {
         if (error.message === 'No data found for the provided query') {
           // Error message user receives.
