@@ -1,14 +1,4 @@
 class API {
-  constructor(url, apiKey) {
-    // URL without api key and search value added.
-    this.url = url;
-    this.apiKey = apiKey;
-  }
-  // Creates the whole URL needed for the fetchData function.
-  buildUrl(searchValue) {
-    return `${this.url}?key=${this.apiKey}&q=${searchValue}`;
-  }
-
   // Fetches the provided URl
   // Return value of buildUrl can be used as argument.
   async fetchData(fullApiURL) {
