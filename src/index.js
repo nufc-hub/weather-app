@@ -40,8 +40,10 @@ function init() {
     errorElement: 'search-error-message',
   };
 
-  // Define the url.
-  const url = 'https://api.weatherapi.com/v1/current.json';
+  // Define the weather today url.
+  const weatherTodayURl = 'https://api.weatherapi.com/v1/current.json';
+  // Define the forecast weather url
+  const weatherForecastURL = 'https://api.weatherapi.com/v1/forecast.json';
   // Define the api key.
   const apiKey = '573237ec7c1e4149932133700241903';
   // Define search regex
@@ -51,7 +53,7 @@ function init() {
   // New Searcher instance. Search element added as argument.
   const searcher = new Searcher(selectors.searchElement);
   // New API instance. url and apiKey variables added as arguments
-  const api = new API(url, apiKey);
+  const api = new API();
   // New UI instance. Selectors added as argument.
   const ui = new UI(selectors);
   // New ErrorHandler instance. Error element added as argument.
@@ -82,13 +84,13 @@ function init() {
       );
     } else if (validateSearch(searchValue, selectors.errorElement)) {
       // Validate the search.
-      // Add searchValue to buildUrl parameter.
-      const fullApiURL = api.buildUrl(searchValue);
-      console.log(fullApiURL);
+      //  Build the URL
+      const weatherDataURl = `${weatherForecastURL}?key=${apiKey}&q=${searchValue}`;
+      console.log(weatherDataURl);
 
       try {
         // Fetch the weather data.
-        const weatherData = await api.fetchData(fullApiURL);
+        const weatherData = await api.fetchData(weatherDataURl);
         console.log(weatherData);
 
         // Update the UI.
