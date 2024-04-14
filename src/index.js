@@ -5,6 +5,7 @@ import API from './modules/api';
 import UI from './modules/ui';
 import validateSearch from './modules/validation';
 import ErrorHandler from './modules/errorHandler';
+import dayGetter from './modules/utils';
 
 function init() {
   // Define selectors. These are the DOM elements.
@@ -46,6 +47,8 @@ function init() {
   const weatherForecastURL = 'https://api.weatherapi.com/v1/forecast.json';
   // Define the api key.
   const apiKey = '573237ec7c1e4149932133700241903';
+  //Define number of forecast days
+  const days = '3';
   // Define search regex
   const searchRegex = /^[a-zA-Z\s'-]+$/;
 
@@ -85,13 +88,14 @@ function init() {
     } else if (validateSearch(searchValue, selectors.errorElement)) {
       // Validate the search.
       //  Build the URL
-      const weatherDataURl = `${weatherForecastURL}?key=${apiKey}&q=${searchValue}`;
+      const weatherDataURl = `${weatherForecastURL}?key=${apiKey}&q=${searchValue}&days=${days}`;
       console.log(weatherDataURl);
 
       try {
         // Fetch the weather data.
         const weatherData = await api.fetchData(weatherDataURl);
         console.log(weatherData);
+        console.log(dayGetter(weatherData.forecast.forecastday[0].date_epoch));
 
         // Update the UI.
         // Update city.
@@ -105,18 +109,54 @@ function init() {
         ui.updateTextContent('visibility', weatherData.current.vis_km);
         ui.updateTextContent('humidity', weatherData.current.humidity);
         ui.updateTextContent('precipitation', weatherData.current.precip_mm);
-        ui.updateTextContent('firstForecastDay', weatherData.location.name);
-        ui.updateTextContent('secondForecastDay', weatherData.location.name);
-        ui.updateTextContent('thirdForecastDay', weatherData.location.name);
-        ui.updateTextContent('firstForecastHigh', weatherData.location.name);
-        ui.updateTextContent('secondForecastHigh', weatherData.location.name);
-        ui.updateTextContent('thirdForecastHigh', weatherData.location.name);
-        ui.updateTextContent('firstForecastLow', weatherData.location.name);
-        ui.updateTextContent('secondForecastLow', weatherData.location.name);
-        ui.updateTextContent('thirdForecastLow', weatherData.location.name);
-        ui.updateTextContent('firstForecastIcon', weatherData.location.name);
-        ui.updateTextContent('secondForecastIcon', weatherData.location.name);
-        ui.updateTextContent('thirdForecastIcon', weatherData.location.name);
+        ui.updateTextContent(
+          'firstForecastDay',
+          dayGetter(weatherData.forecast.forecastday[0].date_epoch)
+        );
+        ui.updateTextContent(
+          'secondForecastDay',
+          dayGetter(weatherData.forecast.forecastday[1].date_epoch)
+        );
+        ui.updateTextContent(
+          'thirdForecastDay',
+          dayGetter(weatherData.forecast.forecastday[2].date_epoch)
+        );
+        ui.updateTextContent(
+          'firstForecastHigh',
+          weatherData.forecast.forecastday[0].day.maxtemp_c
+        );
+        ui.updateTextContent(
+          'secondForecastHigh',
+          weatherData.forecast.forecastday[1].day.maxtemp_c
+        );
+        ui.updateTextContent(
+          'thirdForecastHigh',
+          weatherData.forecast.forecastday[2].day.maxtemp_c
+        );
+        ui.updateTextContent(
+          'firstForecastLow',
+          weatherData.forecast.forecastday[0].day.mintemp_c
+        );
+        ui.updateTextContent(
+          'secondForecastLow',
+          weatherData.forecast.forecastday[1].day.mintemp_c
+        );
+        ui.updateTextContent(
+          'thirdForecastLow',
+          weatherData.forecast.forecastday[2].day.mintemp_c
+        );
+        ui.setSrc(
+          'firstForecastIcon',
+          weatherData.forecast.forecastday[0].day.condition.icon
+        );
+        ui.setSrc(
+          'secondForecastIcon',
+          weatherData.forecast.forecastday[1].day.condition.icon
+        );
+        ui.setSrc(
+          'thirdForecastIcon',
+          weatherData.forecast.forecastday[2].day.condition.icon
+        );
       } catch (error) {
         if (error.message === 'No data found for the provided query') {
           // Error message user receives.
