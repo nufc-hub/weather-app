@@ -84,8 +84,16 @@ function createInstances(selectors) {
   return { searcher, api, ui, errorHandler, config };
 }
 
+function buildWeatherURL(config, searchValue) {
+  const { weatherURL } = config;
+  //  Build the URL
+  const weatherDataURl = `${weatherURL.weatherForecastURL}?key=${weatherURL.apiKey}&q=${searchValue}&days=${weatherURL.days}`;
+  console.log(weatherDataURl);
+  return weatherDataURl;
+}
+
 function search(selectors, searcher, errorHandler, api, ui, config) {
-  const { weatherURL, regex } = config;
+  const { regex } = config;
   // On search, fetch weather data and update UI.
   searcher.onSearch(async () => {
     // Clear errorElement text in necessary.
@@ -109,9 +117,7 @@ function search(selectors, searcher, errorHandler, api, ui, config) {
       );
     } else if (validateSearch(searchValue, selectors.errorElement)) {
       // Validate the search.
-      //  Build the URL
-      const weatherDataURl = `${weatherURL.weatherForecastURL}?key=${weatherURL.apiKey}&q=${searchValue}&days=${weatherURL.days}`;
-      console.log(weatherDataURl);
+      const weatherDataURl = buildWeatherURL(config, searchValue);
       try {
         // Fetch the weather data.
         const weatherData = await api.fetchData(weatherDataURl);
