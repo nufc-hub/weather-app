@@ -3,19 +3,22 @@ import 'normalize.css';
 import Searcher from './modules/searcher';
 import API from './modules/api';
 import UI from './modules/ui';
-import validateSearch from './modules/validation';
+import Validator from './modules/validator';
 import ErrorHandler from './modules/errorHandler';
-import dayGetter from './modules/utils';
+import { dayGetter, buildWeatherURL } from './modules/utils';
+import config from './modules/config';
 
 function init() {
   // Get selectors.
   const selectors = getSelectors();
 
   // Create class instances.
-  const { searcher, errorHandler, api, ui, config } =
+  const { searcher, errorHandler, api, ui, validator } =
     createInstances(selectors);
-
-  search(selectors, searcher, errorHandler, api, ui, config);
+  // Add search event listener.
+  search(selectors, searcher, errorHandler, api, ui, validator, config);
+  // Add load page event listener.
+  loadDefaultWeather(errorHandler, api, ui, config);
 }
 
 function getSelectors() {
@@ -56,21 +59,6 @@ function getSelectors() {
 }
 
 function createInstances(selectors) {
-  // Define the forecast weather url
-  const config = {
-    weatherURL: {
-      weatherForecastURL: 'https://api.weatherapi.com/v1/forecast.json',
-      // Define the api key.
-      apiKey: '573237ec7c1e4149932133700241903',
-      //Define number of forecast days
-      days: '3',
-    },
-    regex: {
-      // Define search regex
-      searchRegex: /^[a-zA-Z\s'-]+$/,
-    },
-  };
-
   // Create class instances.
   // New Searcher instance. Search element added as argument.
   const searcher = new Searcher(selectors.searchElement);
@@ -80,19 +68,34 @@ function createInstances(selectors) {
   const ui = new UI(selectors);
   // New ErrorHandler instance. Error element added as argument.
   const errorHandler = new ErrorHandler(selectors.errorElement);
+  // New Validator instance. Error element added as argument.
+  const validator = new Validator(errorHandler);
 
-  return { searcher, api, ui, errorHandler, config };
+  return { searcher, api, ui, errorHandler, validator, config };
 }
 
-function buildWeatherURL(config, searchValue) {
-  const { weatherURL } = config;
-  //  Build the URL
-  const weatherDataURl = `${weatherURL.weatherForecastURL}?key=${weatherURL.apiKey}&q=${searchValue}&days=${weatherURL.days}`;
-  console.log(weatherDataURl);
-  return weatherDataURl;
+// This function will be called when the page finishes loading.
+// This is responsible for the default load page data.
+function loadDefaultWeather(errorHandler, api, ui, config) {
+  // Set default location.
+  const searchValue = 'Newcastle, UK';
+  window.addEventListener('load', async () => {
+    // Get the weather data URL.
+    const weatherDataURl = buildWeatherURL(config, searchValue);
+    try {
+      // Fetch the weather data.
+      const weatherData = await api.fetchData(weatherDataURl);
+      console.log(weatherData);
+      console.log(dayGetter(weatherData.forecast.forecastday[0].date_epoch));
+      // After receiving the weather data, update the UI.
+      updateUI(ui, weatherData);
+    } catch (error) {
+      handleErrors(error, errorHandler);
+    }
+  });
 }
 
-function search(selectors, searcher, errorHandler, api, ui, config) {
+function search(selectors, searcher, errorHandler, api, ui, validator, config) {
   const { regex } = config;
   // On search, fetch weather data and update UI.
   searcher.onSearch(async () => {
@@ -103,27 +106,19 @@ function search(selectors, searcher, errorHandler, api, ui, config) {
     // Get the search value.
     const searchValue = searcher.getSearchValue().trim();
     console.log(searchValue);
-    // If user enters an empty search value.
-    if (!searchValue) {
-      errorHandler.displayError(
-        'Please enter a city name.',
-        selectors.errorElement
-      );
-    } else if (!regex.searchRegex.test(searchValue)) {
-      // If user enters a search value that doesn't follow the set regex.
-      errorHandler.displayError(
-        `Invalid location format. Please enter as 'City', 'City, State', 'City, Country' or 'Post/Zip code.`,
-        selectors.errorElement
-      );
-    } else if (validateSearch(searchValue, selectors.errorElement)) {
-      // Validate the search.
+    if (
+      validator.validateSearch(searchValue) &&
+      validator.validateSearchRegex(regex.searchRegex, searchValue)
+    ) {
+      // If all validation checks pass.
+      // Get the weather data URL.
       const weatherDataURl = buildWeatherURL(config, searchValue);
       try {
         // Fetch the weather data.
         const weatherData = await api.fetchData(weatherDataURl);
         console.log(weatherData);
         console.log(dayGetter(weatherData.forecast.forecastday[0].date_epoch));
-
+        // After receiving the weather data, update the UI.
         updateUI(ui, weatherData);
       } catch (error) {
         handleErrors(error, errorHandler);
@@ -133,15 +128,25 @@ function search(selectors, searcher, errorHandler, api, ui, config) {
 }
 
 function updateUI(ui, weatherData) {
-  updateCurrentWeather(ui, weatherData);
+  updateLocationUI(ui, weatherData);
+  updateTempUI(ui, weatherData);
+  updateDetailsUI(ui, weatherData);
   updateForecastWeather(ui, weatherData);
 }
 
-function updateCurrentWeather(ui, weatherData) {
-  // Update the UI.
+// Update location UI.
+function updateLocationUI(ui, weatherData) {
   ui.updateTextContent('city', weatherData.location.name);
   ui.updateTextContent('country', weatherData.location.country);
+}
+
+// Update temperature UI.
+function updateTempUI(ui, weatherData) {
   ui.updateTextContent('temperature', weatherData.current.temp_c + '°');
+}
+
+// Update weather details UI.
+function updateDetailsUI(ui, weatherData) {
   ui.updateTextContent('weather', weatherData.current.condition.text);
   ui.updateTextContent('feelsLike', weatherData.current.feelslike_c + ' °C');
   ui.updateTextContent('wind', weatherData.current.wind_kph + ' kph');
@@ -151,6 +156,7 @@ function updateCurrentWeather(ui, weatherData) {
   ui.updateTextContent('precipitation', weatherData.current.precip_mm + ' mm');
 }
 
+// Function for updating the forecast weather UI.
 function updateForecastWeather(ui, weatherData) {
   ui.updateTextContent(
     'firstForecastDay',
@@ -202,6 +208,7 @@ function updateForecastWeather(ui, weatherData) {
   );
 }
 
+// Function for handling the errors.
 function handleErrors(error, errorHandler) {
   if (error.message === 'No data found for the provided query') {
     // Error message user receives.
