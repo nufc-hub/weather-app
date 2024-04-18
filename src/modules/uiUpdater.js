@@ -8,7 +8,7 @@ const updateNonUnitUI = {
   },
 
   // Function for updating the forecast days UI.
-  updateForecastDayUI: function (ui, weatherData) {
+  updateForecastDayUI: function (ui, weatherData, dayGetter) {
     ui.updateTextContent(
       'firstForecastDay',
       dayGetter(weatherData.forecast.forecastday[0].date_epoch)
@@ -138,4 +138,70 @@ const updateImperialUI = {
   },
 };
 
-export { updateNonUnitUI, updateMetricUI, updateImperialUI };
+// Handle weather data UI not related to units of measurement.
+function handleNonUnitUI(ui, weatherData, dayGetter, errorHandler) {
+  // Loop through the objects and execute all functions to update the UI.
+  for (const key in updateNonUnitUI) {
+    // Check if the object has a property named key.
+    if (Object.hasOwnProperty.call(updateNonUnitUI, key)) {
+      // Create variable for updateNonUnitUI[key].
+      const updateFunction = updateNonUnitUI[key];
+      // If it's a function, then execute the function.
+      if (typeof updateFunction === 'function') {
+        try {
+          updateFunction(ui, weatherData, dayGetter);
+        } catch (error) {
+          errorHandler.displayError(error);
+        }
+      } else {
+        handleErrors(error, errorHandler);
+      }
+    }
+  }
+}
+
+// Handle weather data UI related to metric units of measurement.
+function handleUIMetric(ui, weatherData, errorHandler) {
+  for (const key in updateMetricUI) {
+    if (Object.hasOwnProperty.call(updateMetricUI, key)) {
+      const updateFunction = updateMetricUI[key];
+      if (typeof updateMetricUI[key] === 'function') {
+        try {
+          updateFunction(ui, weatherData);
+        } catch (error) {
+          errorHandler.displayError(error);
+        }
+      } else {
+        handleErrors(error, errorHandler);
+      }
+    }
+  }
+}
+
+// Handle weather data UI related to imperial units of measurement.
+function handleUIImperial(ui, weatherData, errorHandler) {
+  // Loop through the objects and execute all functions to update the UI.
+  for (const key in updateImperialUI) {
+    if (Object.hasOwnProperty.call(updateImperialUI, key)) {
+      const updateFunction = updateImperialUI[key];
+      if (typeof updateImperialUI[key] === 'function') {
+        try {
+          updateFunction(ui, weatherData);
+        } catch (error) {
+          errorHandler.displayError(error);
+        }
+      } else {
+        handleErrors(error, errorHandler);
+      }
+    }
+  }
+}
+
+export {
+  updateNonUnitUI,
+  updateMetricUI,
+  updateImperialUI,
+  handleNonUnitUI,
+  handleUIMetric,
+  handleUIImperial,
+};
