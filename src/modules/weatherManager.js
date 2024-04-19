@@ -2,7 +2,6 @@ class WeatherManager {
   constructor(
     selectors,
     config,
-    isMetric,
     dayGetter,
     nonUnitUI,
     metricUI,
@@ -16,7 +15,7 @@ class WeatherManager {
   ) {
     this.selectors = selectors;
     this.config = config;
-    this.isMetric = isMetric;
+    this.isMetric = true;
     this.dayGetter = dayGetter;
     this.nonUnitUI = nonUnitUI;
     this.metricUI = metricUI;
@@ -27,6 +26,16 @@ class WeatherManager {
     this.api = api;
     this.ui = ui;
     this.validator = validator;
+    this.fetchedWeatherData = null;
+  }
+
+  toggleUnits() {
+    this.isMetric = !this.isMetric;
+    if (this.isMetric) {
+      this.metricUI(this.ui, this.fetchedWeatherData, this.errorHandler);
+    } else {
+      this.imperialUI(this.ui, this.fetchedWeatherData, this.errorHandler);
+    }
   }
 
   // This is responsible for the default load page data.
@@ -39,13 +48,22 @@ class WeatherManager {
     try {
       // Fetch the weather data.
       const weatherData = await this.api.fetchData(weatherDataURl);
+
+      // Add weather data to the constructor so it can be used by other functions.
+      this.fetchedWeatherData = weatherData;
       console.log(weatherData);
       console.log(
         this.dayGetter(weatherData.forecast.forecastday[0].date_epoch)
       );
       // After receiving the weather data, update the UI.
       this.nonUnitUI(this.ui, weatherData, this.dayGetter, this.errorHandler);
-      this.metricUI(this.ui, weatherData, this.errorHandler);
+      // If isMetric is false, show imperial units.
+      if (!this.isMetric) {
+        this.imperialUI(this.ui, weatherData, this.errorHandler);
+      } else {
+        // If isMetric is true, show metric units.
+        this.metricUI(this.ui, weatherData, this.errorHandler);
+      }
     } catch (error) {
       this.errorHandler.handleErrors(error);
     }
@@ -73,21 +91,21 @@ class WeatherManager {
       try {
         // Fetch the weather data.
         const weatherData = await this.api.fetchData(weatherDataURl);
+
+        // Add weather data to the constructor so it can be used by other functions.
+        this.fetchedWeatherData = weatherData;
+
         console.log(weatherData);
         console.log(
           this.dayGetter(weatherData.forecast.forecastday[0].date_epoch)
         );
         // After receiving the weather data, update the UI.
-        if (this.isMetric) {
-          this.nonUnitUI(
-            this.ui,
-            weatherData,
-            this.dayGetter,
-            this.errorHandler
-          );
-          this.metricUI(this.ui, weatherData, this.errorHandler);
+        this.nonUnitUI(this.ui, weatherData, this.dayGetter, this.errorHandler);
+        if (!this.isMetric) {
+          this.imperialUI(this.ui, weatherData, this.errorHandler);
         } else {
-          // UpdateUIFahrenheit
+          // If isMetric is true, show metric units.
+          this.metricUI(this.ui, weatherData, this.errorHandler);
         }
       } catch (error) {
         this.errorHandler.handleErrors(error);
