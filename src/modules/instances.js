@@ -1,10 +1,15 @@
-import Searcher from './modules/searcher';
-import API from './modules/api';
-import UI from './modules/ui';
-import Validator from './modules/validator';
-import ErrorHandler from './modules/errorHandler';
+import Searcher from './searcher';
+import API from './api';
+import UI from './ui';
+import Validator from './validator';
+import ErrorHandler from './errorHandler';
+import WeatherManager from './weatherManager';
+import { handleNonUnitUI, handleUIMetric, handleUIImperial } from './uiUpdater';
+import { getSelectors, buildWeatherURL, dayGetter } from './utils';
+import config from './config';
 
-function createInstances(selectors) {
+function createInstances(isMetric) {
+  const selectors = getSelectors();
   // Create class instances.
   // New Searcher instance. Search element added as argument.
   const searcher = new Searcher(selectors.searchElement);
@@ -16,8 +21,24 @@ function createInstances(selectors) {
   const errorHandler = new ErrorHandler(selectors.errorElement);
   // New Validator instance. Error element added as argument.
   const validator = new Validator(errorHandler);
+  // New WeatherManager.
+  const weatherManager = new WeatherManager(
+    selectors,
+    config,
+    isMetric,
+    dayGetter,
+    handleNonUnitUI,
+    handleUIMetric,
+    handleUIImperial,
+    buildWeatherURL,
+    searcher,
+    errorHandler,
+    api,
+    ui,
+    validator
+  );
 
-  return { searcher, api, ui, errorHandler, validator, config };
+  return { searcher, api, ui, errorHandler, validator, weatherManager };
 }
 
 export default createInstances;
