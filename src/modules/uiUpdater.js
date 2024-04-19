@@ -113,27 +113,27 @@ const updateImperialUI = {
   updateForecastTempImperialUI: function (ui, weatherData) {
     ui.updateTextContent(
       'firstForecastHigh',
-      weatherData.forecast.forecastday[0].day.maxtemp_c + ' °C'
+      weatherData.forecast.forecastday[0].day.maxtemp_f + ' °F'
     );
     ui.updateTextContent(
       'secondForecastHigh',
-      weatherData.forecast.forecastday[1].day.maxtemp_c + ' °C'
+      weatherData.forecast.forecastday[1].day.maxtemp_f + ' °F'
     );
     ui.updateTextContent(
       'thirdForecastHigh',
-      weatherData.forecast.forecastday[2].day.maxtemp_c + ' °C'
+      weatherData.forecast.forecastday[2].day.maxtemp_f + ' °F'
     );
     ui.updateTextContent(
       'firstForecastLow',
-      weatherData.forecast.forecastday[0].day.mintemp_c + ' °C'
+      weatherData.forecast.forecastday[0].day.mintemp_f + ' °F'
     );
     ui.updateTextContent(
       'secondForecastLow',
-      weatherData.forecast.forecastday[1].day.mintemp_c + ' °C'
+      weatherData.forecast.forecastday[1].day.mintemp_f + ' °F'
     );
     ui.updateTextContent(
       'thirdForecastLow',
-      weatherData.forecast.forecastday[2].day.mintemp_c + ' °C'
+      weatherData.forecast.forecastday[2].day.mintemp_f + ' °C'
     );
   },
 };
@@ -154,7 +154,7 @@ function handleNonUnitUI(ui, weatherData, dayGetter, errorHandler) {
           errorHandler.displayError(error);
         }
       } else {
-        handleErrors(error, errorHandler);
+        errorHandler.handleErrors(error);
       }
     }
   }
@@ -172,7 +172,7 @@ function handleUIMetric(ui, weatherData, errorHandler) {
           errorHandler.displayError(error);
         }
       } else {
-        handleErrors(error, errorHandler);
+        errorHandler.handleErrors(error);
       }
     }
   }
@@ -191,7 +191,7 @@ function handleUIImperial(ui, weatherData, errorHandler) {
           errorHandler.displayError(error);
         }
       } else {
-        handleErrors(error, errorHandler);
+        errorHandler.handleErrors(error);
       }
     }
   }
