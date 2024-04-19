@@ -25,7 +25,6 @@ function createInstances(isMetric) {
   const weatherManager = new WeatherManager(
     selectors,
     config,
-    isMetric,
     dayGetter,
     handleNonUnitUI,
     handleUIMetric,
