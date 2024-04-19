@@ -2,21 +2,31 @@ class WeatherManager {
   constructor(
     selectors,
     config,
+    isMetric,
+    dayGetter,
+    nonUnitUI,
+    metricUI,
+    imperialUI,
+    buildWeatherURL,
     searcher,
     errorHandler,
     api,
     ui,
-    validator,
-    isMetric
+    validator
   ) {
     this.selectors = selectors;
     this.config = config;
+    this.isMetric = isMetric;
+    this.dayGetter = dayGetter;
+    this.nonUnitUI = nonUnitUI;
+    this.metricUI = metricUI;
+    this.imperialUI = imperialUI;
+    this.buildWeatherURL = buildWeatherURL;
     this.searcher = searcher;
     this.errorHandler = errorHandler;
     this.api = api;
     this.ui = ui;
     this.validator = validator;
-    this.isMetric = isMetric;
   }
 
   // This is responsible for the default load page data.
@@ -25,53 +35,62 @@ class WeatherManager {
     const searchValue = 'Newcastle, UK';
 
     // Get the weather data URL.
-    const weatherDataURl = buildWeatherURL(config, searchValue);
+    const weatherDataURl = this.buildWeatherURL(this.config, searchValue);
     try {
       // Fetch the weather data.
-      const weatherData = await api.fetchData(weatherDataURl);
+      const weatherData = await this.api.fetchData(weatherDataURl);
       console.log(weatherData);
-      console.log(dayGetter(weatherData.forecast.forecastday[0].date_epoch));
+      console.log(
+        this.dayGetter(weatherData.forecast.forecastday[0].date_epoch)
+      );
       // After receiving the weather data, update the UI.
-      handleNonUnitUI(ui, weatherData, dayGetter, errorHandler);
-      handleUIMetric(ui, weatherData, dayGetter, errorHandler);
+      this.nonUnitUI(this.ui, weatherData, this.dayGetter, this.errorHandler);
+      this.metricUI(this.ui, weatherData, this.errorHandler);
     } catch (error) {
-      errorHandler.handleErrors(error);
+      this.errorHandler.handleErrors(error);
     }
   }
 
   // This is responsible for search bar functionality.
   async search() {
-    const { regex } = config;
+    const { regex } = this.config;
     // On search, fetch weather data and update UI.
 
     // Clear errorElement text in necessary.
-    if (selectors.errorElement) {
-      errorHandler.clearError();
+    if (this.selectors.errorElement) {
+      this.errorHandler.clearError();
     }
     // Get the search value.
-    const searchValue = searcher.getSearchValue().trim();
+    const searchValue = this.searcher.getSearchValue().trim();
     console.log(searchValue);
     if (
-      validator.validateSearch(searchValue) &&
-      validator.validateSearchRegex(regex.searchRegex, searchValue)
+      this.validator.validateSearch(searchValue) &&
+      this.validator.validateSearchRegex(regex.searchRegex, searchValue)
     ) {
       // If all validation checks pass.
       // Get the weather data URL.
-      const weatherDataURl = buildWeatherURL(config, searchValue);
+      const weatherDataURl = this.buildWeatherURL(this.config, searchValue);
       try {
         // Fetch the weather data.
-        const weatherData = await api.fetchData(weatherDataURl);
+        const weatherData = await this.api.fetchData(weatherDataURl);
         console.log(weatherData);
-        console.log(dayGetter(weatherData.forecast.forecastday[0].date_epoch));
+        console.log(
+          this.dayGetter(weatherData.forecast.forecastday[0].date_epoch)
+        );
         // After receiving the weather data, update the UI.
-        if (isMetric) {
-          handleNonUnitUI(ui, weatherData, dayGetter, errorHandler);
-          handleUIMetric(ui, weatherData, dayGetter, errorHandler);
+        if (this.isMetric) {
+          this.nonUnitUI(
+            this.ui,
+            weatherData,
+            this.dayGetter,
+            this.errorHandler
+          );
+          this.metricUI(this.ui, weatherData, this.errorHandler);
         } else {
           // UpdateUIFahrenheit
         }
       } catch (error) {
-        errorHandler.handleErrors(error);
+        this.errorHandler.handleErrors(error);
       }
     }
   }
