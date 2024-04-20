@@ -197,11 +197,16 @@ function handleUIImperial(ui, weatherData, errorHandler) {
   }
 }
 
-export {
-  updateNonUnitUI,
-  updateMetricUI,
-  updateImperialUI,
-  handleNonUnitUI,
-  handleUIMetric,
-  handleUIImperial,
+const loadingScreenUI = {
+  showLoadingScreen: function (selectors) {
+    const { loadingIndicator } = selectors;
+    document.getElementById(loadingIndicator).style.display = 'block';
+  },
+
+  hideLoadingScreen: function (selectors) {
+    const { loadingIndicator } = selectors;
+    document.getElementById(loadingIndicator).style.display = 'none';
+  },
 };
+
+export { handleNonUnitUI, handleUIMetric, handleUIImperial, loadingScreenUI };
