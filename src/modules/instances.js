@@ -4,12 +4,16 @@ import UI from './ui';
 import Validator from './validator';
 import ErrorHandler from './errorHandler';
 import WeatherManager from './weatherManager';
-import { handleNonUnitUI, handleUIMetric, handleUIImperial } from './uiUpdater';
-import { getSelectors, buildWeatherURL, dayGetter } from './utils';
+import {
+  handleNonUnitUI,
+  handleUIMetric,
+  handleUIImperial,
+  loadingScreenUI,
+} from './uiUpdater';
+import { buildWeatherURL, dayGetter } from './utils';
 import config from './config';
 
-function createInstances(isMetric) {
-  const selectors = getSelectors();
+function createInstances(selectors) {
   // Create class instances.
   // New Searcher instance. Search element added as argument.
   const searcher = new Searcher(selectors.searchElement);
@@ -34,7 +38,8 @@ function createInstances(isMetric) {
     errorHandler,
     api,
     ui,
-    validator
+    validator,
+    loadingScreenUI
   );
 
   return { searcher, api, ui, errorHandler, validator, weatherManager };
