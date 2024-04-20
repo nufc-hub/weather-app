@@ -11,7 +11,8 @@ class WeatherManager {
     errorHandler,
     api,
     ui,
-    validator
+    validator,
+    loadingScreenUI
   ) {
     this.selectors = selectors;
     this.config = config;
@@ -26,6 +27,7 @@ class WeatherManager {
     this.api = api;
     this.ui = ui;
     this.validator = validator;
+    this.loadingScreenUI = loadingScreenUI;
     this.fetchedWeatherData = null;
   }
 
@@ -40,6 +42,8 @@ class WeatherManager {
 
   // This is responsible for the default load page data.
   async loadDefaultWeather() {
+    // Start loading screen.
+    this.loadingScreenUI.showLoadingScreen(this.selectors);
     // Set default location.
     const searchValue = 'Newcastle, UK';
 
@@ -64,6 +68,7 @@ class WeatherManager {
         // If isMetric is true, show metric units.
         this.metricUI(this.ui, weatherData, this.errorHandler);
       }
+      this.loadingScreenUI.hideLoadingScreen(this.selectors);
     } catch (error) {
       this.errorHandler.handleErrors(error);
     }
