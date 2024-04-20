@@ -7,9 +7,6 @@ function getSelectors() {
     temperature: 'temperature-number',
     weather: 'weather-type',
     feelsLike: 'feels-like',
-    wind: 'wind',
-    barometer: 'barometer',
-    visibility: 'visibility',
     humidity: 'humidity',
     precipitation: 'precipitation',
     firstForecastDay: 'first-forecast-day',
@@ -31,11 +28,17 @@ function getSelectors() {
     // Error Element.
     errorElement: 'search-error-message',
 
-    // Celsius unit button.
-    celsiusButton: 'celsius-button',
+    // Celsius unit symbol.
+    celsiusSymbol: 'celsius-symbol',
 
-    // Fahrenheit unit button.
-    fahrenheitButton: 'fahrenheit-button',
+    // Fahrenheit unit symbol.
+    fahrenheitSymbol: 'fahrenheit-symbol',
+
+    // Toggle units button.
+    toggleUnits: 'toggle-units',
+
+    // Loading spinner.
+    loadingIndicator: 'loading-indicator',
   };
 
   return selectors;
