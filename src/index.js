@@ -11,13 +11,13 @@ function init() {
   const { searcher, weatherManager } = createInstances(selectors);
 
   // Add load page event listener.
-  window.addEventListener('load', async () => {
-    await weatherManager.loadDefaultWeather();
+  window.addEventListener('load', () => {
+    weatherManager.loadDefaultWeather();
   });
 
   // Add search event listener.
-  searcher.onSearch(async () => {
-    await weatherManager.search();
+  searcher.onSearch(() => {
+    weatherManager.search();
   });
 
   // Add toggle units event listener.
