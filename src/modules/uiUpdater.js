@@ -48,16 +48,10 @@ const updateMetricUI = {
 
   // Update weather details UI using metric.
   updateDetailsMetricUI: function (ui, weatherData) {
-    ui.updateTextContent('weather', weatherData.current.condition.text);
+    ui.setSrc('weather', weatherData.current.condition.icon);
     ui.updateTextContent('feelsLike', weatherData.current.feelslike_c + ' °C');
-    ui.updateTextContent('wind', weatherData.current.wind_kph + ' kph');
-    ui.updateTextContent('barometer', weatherData.current.pressure_mb + ' mb');
-    ui.updateTextContent('visibility', weatherData.current.vis_km + ' km');
     ui.updateTextContent('humidity', weatherData.current.humidity + ' %');
-    ui.updateTextContent(
-      'precipitation',
-      weatherData.current.precip_mm + ' mm'
-    );
+    ui.updateTextContent('UV', weatherData.current.uv);
   },
 
   // Function for updating the forecast temperature UI in metric.
@@ -103,10 +97,7 @@ const updateImperialUI = {
     ui.updateTextContent('barometer', weatherData.current.pressure_in + ' in');
     ui.updateTextContent('visibility', weatherData.current.vis_miles + ' m');
     ui.updateTextContent('humidity', weatherData.current.humidity + ' %');
-    ui.updateTextContent(
-      'precipitation',
-      weatherData.current.precip_in + ' in'
-    );
+    ui.updateTextContent('UV', weatherData.current.uv);
   },
 
   // Function for updating the forecast temperature UI in imperial.
@@ -160,6 +151,22 @@ function handleNonUnitUI(ui, weatherData, dayGetter, errorHandler) {
   }
 }
 
+function setUVLevel(ui, weatherData) {
+  const uv = weatherData.current.uv;
+
+  if (weatherData.current.uv < 3) {
+    return ui.updateTextContent('UV', 'Low');
+  } else if (uv < 6) {
+    return ui.updateTextContent('UV', 'Moderate');
+  } else if (uv < 8) {
+    return ui.updateTextContent('UV', 'High');
+  } else if (uv < 11) {
+    return ui.updateTextContent('UV', 'Very High');
+  } else {
+    return ui.updateTextContent('UV', 'Extreme');
+  }
+}
+
 // Handle weather data UI related to metric units of measurement.
 function handleUIMetric(ui, weatherData, errorHandler) {
   for (const key in updateMetricUI) {
@@ -200,7 +207,7 @@ function handleUIImperial(ui, weatherData, errorHandler) {
 const loadingScreenUI = {
   showLoadingScreen: function (selectors) {
     const { loadingIndicator } = selectors;
-    document.getElementById(loadingIndicator).style.display = 'block';
+    document.getElementById(loadingIndicator).style.display = 'flex';
   },
 
   hideLoadingScreen: function (selectors) {
