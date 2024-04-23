@@ -3,128 +3,149 @@
 const updateNonUnitUI = {
   // Update location UI.
   updateLocationUI: function (ui, weatherData) {
-    ui.updateTextContent('city', weatherData.location.name);
+    const location = weatherData.location;
+    ui.updateTextContent('city', location.name);
     ui.updateTextContent('country', weatherData.location.country);
+  },
+
+  // Update UV level.
+  setUVLevel: function (ui, weatherData) {
+    // Current UV level.
+    const uv = weatherData.current.uv;
+    // Sets the UV UI text content depending on the UV level.
+    if (weatherData.current.uv < 3) {
+      // Set message depending on level of UV.
+      return ui.updateTextContent('UV', 'Low');
+    } else if (uv < 6) {
+      return ui.updateTextContent('UV', 'Moderate');
+    } else if (uv < 8) {
+      return ui.updateTextContent('UV', 'High');
+    } else if (uv < 11) {
+      return ui.updateTextContent('UV', 'Very High');
+    } else {
+      return ui.updateTextContent('UV', 'Extreme');
+    }
+  },
+
+  updateCurrentWeather: function (ui, weatherData) {
+    const currentWeather = weatherData.current;
+    ui.setSrc('weatherIcon', currentWeather.condition.icon);
+    ui.updateTextContent('weatherType', currentWeather.condition.text);
   },
 
   // Function for updating the forecast days UI.
   updateForecastDayUI: function (ui, weatherData, dayGetter) {
+    const forecastDay = weatherData.forecast.forecastday;
     ui.updateTextContent(
       'firstForecastDay',
-      dayGetter(weatherData.forecast.forecastday[0].date_epoch)
+      dayGetter(forecastDay[0].date_epoch)
     );
     ui.updateTextContent(
       'secondForecastDay',
-      dayGetter(weatherData.forecast.forecastday[1].date_epoch)
+      dayGetter(forecastDay[1].date_epoch)
     );
     ui.updateTextContent(
       'thirdForecastDay',
-      dayGetter(weatherData.forecast.forecastday[2].date_epoch)
+      dayGetter(forecastDay[2].date_epoch)
     );
   },
 
   // Function for updating the forecast weather icon.
   updateForecastIconUI: function (ui, weatherData) {
-    ui.setSrc(
-      'firstForecastIcon',
-      weatherData.forecast.forecastday[0].day.condition.icon
-    );
-    ui.setSrc(
-      'secondForecastIcon',
-      weatherData.forecast.forecastday[1].day.condition.icon
-    );
-    ui.setSrc(
-      'thirdForecastIcon',
-      weatherData.forecast.forecastday[2].day.condition.icon
-    );
+    const forecastDay = weatherData.forecast.forecastday;
+    ui.setSrc('firstForecastIcon', forecastDay[0].day.condition.icon);
+    ui.setSrc('secondForecastIcon', forecastDay[1].day.condition.icon);
+    ui.setSrc('thirdForecastIcon', forecastDay[2].day.condition.icon);
   },
 };
 
 const updateMetricUI = {
-  // Update temperature UI in metric.
-  updateTempMetricUI: function (ui, weatherData) {
-    ui.updateTextContent('temperature', weatherData.current.temp_c + '°');
+  updateCurrentTempMetricUI: function (ui, weatherData) {
+    const currentWeather = weatherData.current;
+    ui.updateTextContent('temperature', currentWeather.temp_c + '°C');
   },
 
   // Update weather details UI using metric.
   updateDetailsMetricUI: function (ui, weatherData) {
-    ui.setSrc('weather', weatherData.current.condition.icon);
-    ui.updateTextContent('feelsLike', weatherData.current.feelslike_c + ' °C');
-    ui.updateTextContent('humidity', weatherData.current.humidity + ' %');
-    ui.updateTextContent('UV', weatherData.current.uv);
+    const currentWeather = weatherData.current;
+
+    ui.updateTextContent('feelsLike', currentWeather.feelslike_c + ' °C');
+    ui.updateTextContent('humidity', currentWeather.humidity + ' %');
   },
 
   // Function for updating the forecast temperature UI in metric.
   updateForecastTempMetricUI: function (ui, weatherData) {
+    const forecastDay = weatherData.forecast.forecastday;
     ui.updateTextContent(
       'firstForecastHigh',
-      weatherData.forecast.forecastday[0].day.maxtemp_c + ' °C'
+      forecastDay[0].day.maxtemp_c + ' °C'
     );
     ui.updateTextContent(
       'secondForecastHigh',
-      weatherData.forecast.forecastday[1].day.maxtemp_c + ' °C'
+      forecastDay[1].day.maxtemp_c + ' °C'
     );
     ui.updateTextContent(
       'thirdForecastHigh',
-      weatherData.forecast.forecastday[2].day.maxtemp_c + ' °C'
+      forecastDay[2].day.maxtemp_c + ' °C'
     );
     ui.updateTextContent(
       'firstForecastLow',
-      weatherData.forecast.forecastday[0].day.mintemp_c + ' °C'
+      forecastDay[0].day.mintemp_c + ' °C'
     );
     ui.updateTextContent(
       'secondForecastLow',
-      weatherData.forecast.forecastday[1].day.mintemp_c + ' °C'
+      forecastDay[1].day.mintemp_c + ' °C'
     );
     ui.updateTextContent(
       'thirdForecastLow',
-      weatherData.forecast.forecastday[2].day.mintemp_c + ' °C'
+      forecastDay[2].day.mintemp_c + ' °C'
     );
   },
 };
 
 const updateImperialUI = {
   // Update temperature UI in imperial.
-  updateTempImperialUI: function (ui, weatherData) {
-    ui.updateTextContent('temperature', weatherData.current.temp_f + '°');
+  updateCurrentTempImperialUI: function (ui, weatherData) {
+    const currentWeather = weatherData.current;
+    ui.updateTextContent('temperature', currentWeather.temp_f + ' °F');
   },
 
   // Update weather details UI using imperial.
   updateDetailsImperialUI: function (ui, weatherData) {
-    ui.updateTextContent('weather', weatherData.current.condition.text);
-    ui.updateTextContent('feelsLike', weatherData.current.feelslike_f + ' °F');
-    ui.updateTextContent('wind', weatherData.current.wind_mph + ' mph');
-    ui.updateTextContent('barometer', weatherData.current.pressure_in + ' in');
-    ui.updateTextContent('visibility', weatherData.current.vis_miles + ' m');
-    ui.updateTextContent('humidity', weatherData.current.humidity + ' %');
-    ui.updateTextContent('UV', weatherData.current.uv);
+    const currentWeather = weatherData.current;
+    ui.updateTextContent('feelsLike', currentWeather.feelslike_f + ' °F');
+    ui.updateTextContent('wind', currentWeather.wind_mph + ' mph');
+    ui.updateTextContent('barometer', currentWeather.pressure_in + ' in');
+    ui.updateTextContent('visibility', currentWeather.vis_miles + ' m');
+    ui.updateTextContent('humidity', currentWeather.humidity + ' %');
   },
 
   // Function for updating the forecast temperature UI in imperial.
   updateForecastTempImperialUI: function (ui, weatherData) {
+    const forecastDay = weatherData.forecast.forecastday;
     ui.updateTextContent(
       'firstForecastHigh',
-      weatherData.forecast.forecastday[0].day.maxtemp_f + ' °F'
+      forecastDay[0].day.maxtemp_f + ' °F'
     );
     ui.updateTextContent(
       'secondForecastHigh',
-      weatherData.forecast.forecastday[1].day.maxtemp_f + ' °F'
+      forecastDay[1].day.maxtemp_f + ' °F'
     );
     ui.updateTextContent(
       'thirdForecastHigh',
-      weatherData.forecast.forecastday[2].day.maxtemp_f + ' °F'
+      forecastDay[2].day.maxtemp_f + ' °F'
     );
     ui.updateTextContent(
       'firstForecastLow',
-      weatherData.forecast.forecastday[0].day.mintemp_f + ' °F'
+      forecastDay[0].day.mintemp_f + ' °F'
     );
     ui.updateTextContent(
       'secondForecastLow',
-      weatherData.forecast.forecastday[1].day.mintemp_f + ' °F'
+      forecastDay[1].day.mintemp_f + ' °F'
     );
     ui.updateTextContent(
       'thirdForecastLow',
-      weatherData.forecast.forecastday[2].day.mintemp_f + ' °C'
+      forecastDay[2].day.mintemp_f + ' °C'
     );
   },
 };
@@ -148,22 +169,6 @@ function handleNonUnitUI(ui, weatherData, dayGetter, errorHandler) {
         errorHandler.handleErrors(error);
       }
     }
-  }
-}
-
-function setUVLevel(ui, weatherData) {
-  const uv = weatherData.current.uv;
-
-  if (weatherData.current.uv < 3) {
-    return ui.updateTextContent('UV', 'Low');
-  } else if (uv < 6) {
-    return ui.updateTextContent('UV', 'Moderate');
-  } else if (uv < 8) {
-    return ui.updateTextContent('UV', 'High');
-  } else if (uv < 11) {
-    return ui.updateTextContent('UV', 'Very High');
-  } else {
-    return ui.updateTextContent('UV', 'Extreme');
   }
 }
 
