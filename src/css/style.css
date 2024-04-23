@@ -42,12 +42,13 @@ body {
 }
 
 .weather-app {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-sizing: border-box;
   height: 100vh;
   gap: 10px;
+  padding: 10px;
   border: 2px solid black;
   font-family: 'Nanum Gothic', sans-serif;
   font-weight: bold;
@@ -56,28 +57,62 @@ body {
 
 .weather-app-top {
   border: 2px solid white;
+  margin-bottom: 50px;
 }
 
 .location-search-container {
   display: flex;
   justify-content: space-between;
-  padding: 0 10px 5px 10px;
+  min-height: 80px;
+  padding: 10px 10px 5px 10px;
 }
 
 .city-country {
   display: flex;
-  align-items: end;
+  align-items: flex-end;
+  font-size: 2rem;
   border: 2px solid green;
+}
+
+.search-error-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 400px;
 }
 
 .search {
   display: flex;
-  align-items: end;
+  justify-content: flex-end;
+}
+
+.search-bar {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  outline: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  color: #333;
+}
+
+.search-bar:focus {
+  border-color: red;
+}
+
+.search-bar::placeholder {
+  color: antiquewhite;
+}
+
+.search-error-element {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.8rem;
+  color: goldenrod;
 }
 
 .weather-container {
   display: grid;
-  flex: 1;
   grid: 1fr/ 2fr 1fr;
   grid-template-areas:
     'temperature-weather weather-details'
@@ -109,6 +144,13 @@ body {
 
 .current-weather {
   display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.current-weather div {
+  display: flex;
+  gap: 10px;
 }
 
 .current-weather-icon {
@@ -117,18 +159,8 @@ body {
   border: 2px solid red;
 }
 
-.current-weather-type-container {
-}
-
-.toggle-unit-container {
-  flex: 1;
-  font-size: 2rem;
-  border: 2px solid pink;
-}
-
-.toggle-units {
-  font-size: 0.8rem;
-  cursor: pointer;
+.current-weather-type {
+  font-size: 3rem;
 }
 
 .weather-details {
@@ -140,7 +172,7 @@ body {
 .weather-detail {
   display: flex;
   flex: 1;
-  justify-content: end;
+  justify-content: flex-end;
   /* gap: 10px; */
   padding: 5px;
   border: 2px solid blue;
@@ -161,6 +193,7 @@ body {
 }
 
 .detail-title {
+  min-width: 110px;
   margin-bottom: 5px;
   font-size: 0.9rem;
 }
@@ -171,15 +204,36 @@ body {
 
 .weather-type-container {
   display: flex;
-  align-items: end;
+  align-items: flex-end;
   grid-area: weather-type-container;
+}
+
+.toggle-units-container {
+  display: flex;
+  flex: 1;
+  padding: 5px;
+  border: 2px solid pink;
+}
+
+.toggle-units {
+  font-size: 0.8rem;
+  cursor: pointer;
 }
 
 .weather-app-bottom {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Three columns */
+  grid-template: 1fr 2fr / repeat(3, 1fr);
+  grid-template-areas:
+    'forecast-heading forecast-heading forecast-heading'
+    'forecast-item-one forecast-item-two forecast-item-three';
   align-items: end;
   border: 2px solid rosybrown;
+}
+
+.forecast-heading-container {
+  display: flex;
+  justify-content: center;
+  grid-area: forecast-heading;
 }
 
 .forecast-item {
@@ -191,9 +245,41 @@ body {
   margin-bottom: 5px;
 }
 
+.forecast-item:nth-child(1) {
+  grid-area: forecast-item-one;
+}
+
+.forecast-item:nth-child(2) {
+  grid-area: forecast-item-two;
+}
+
+.forecast-item:nth-child(3) {
+  grid-area: forecast-item-three;
+}
+
 /* CSS styles for extra small devices */
 
 @media only screen and (max-width: 576px) {
+  .weather-app {
+    height: auto;
+  }
+
+  .city-country {
+    font-size: 1.4rem;
+  }
+
+  .location-search-container {
+    flex-direction: column-reverse;
+  }
+
+  .search {
+    justify-content: center;
+  }
+
+  .search-error-container {
+    justify-content: flex-end;
+  }
+
   .weather-container {
     display: flex;
     flex-direction: column;
@@ -211,6 +297,21 @@ body {
   }
 
   .weather-detail {
-    align-items: start;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .detail-title {
+    min-width: auto;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+  }
+
+  .detail-icon {
+    margin-bottom: 10px;
+  }
+
+  .detail-title-data {
+    align-items: center;
   }
 }
