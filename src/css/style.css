@@ -102,28 +102,28 @@ body {
 }
 
 .temperature-number {
-  grid-area: temperature-number;
   padding: 5px;
   border: 2px solid indigo;
   font-size: 8rem;
 }
 
-.weather-unit-icon {
+.current-weather {
   display: flex;
 }
 
 .current-weather-icon {
-  grid-area: current-weather-icon;
   height: 100px;
   width: auto;
   border: 2px solid red;
 }
 
-.temperature-unit {
+.current-weather-type-container {
+}
+
+.toggle-unit-container {
   flex: 1;
   font-size: 2rem;
   border: 2px solid pink;
-  grid-area: temperature-unit;
 }
 
 .toggle-units {
@@ -140,11 +140,24 @@ body {
 .weather-detail {
   display: flex;
   flex: 1;
-  flex-direction: column;
-  align-items: end;
-  gap: 10px;
+  justify-content: end;
+  /* gap: 10px; */
   padding: 5px;
   border: 2px solid blue;
+}
+
+.detail-icon {
+  display: flex;
+}
+
+.detail-icon svg {
+  height: 60px;
+  width: auto;
+}
+
+.detail-title-data {
+  display: flex;
+  flex-direction: column;
 }
 
 .detail-title {
@@ -181,16 +194,15 @@ body {
 /* CSS styles for extra small devices */
 
 @media only screen and (max-width: 576px) {
-  /* .grid {
-    grid-template: 1fr 0.8fr/ 1fr;
-    height: 100vh;
-  } */
-
   .weather-container {
     display: flex;
     flex-direction: column;
     flex: 1;
     border: 2px solid orange;
+  }
+
+  .temperature-number {
+    font-size: 5rem;
   }
 
   .weather-details {
