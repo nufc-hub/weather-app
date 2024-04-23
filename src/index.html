@@ -23,19 +23,22 @@
             <span id="city-name"></span><span>,&nbsp;</span
             ><span id="country-name"></span>
           </div>
-          <div class="search">
-            <label for="search"></label>
-            <input
-              type="search"
-              id="search"
-              name="search"
-              placeholder="Search location..."
-            />
+          <div class="search-error-container">
             <div class="search-error-element">
               <span
                 class="search-error-message"
                 id="search-error-message"
               ></span>
+            </div>
+            <div class="search">
+              <label for="search"></label>
+              <input
+                class="search-bar"
+                type="search"
+                id="search"
+                name="search"
+                placeholder="Search location..."
+              />
             </div>
           </div>
         </div>
@@ -43,17 +46,17 @@
           <div class="temperature-weather">
             <div class="temperature-number" id="temperature-number"></div>
             <div class="current-weather">
-              <img
-                src=""
-                class="current-weather-icon"
-                id="current-weather-icon"
-              />
-              <div class="current-weather-type-container">
-                <div id="current-weather-type"></div>
-              </div>
-              <div class="toggle-untis-container">
-                <div class="toggle-units" id="toggle-units" role="button">
-                  Display in °F
+              <div>
+                <img
+                  src=""
+                  class="current-weather-icon"
+                  id="current-weather-icon"
+                />
+                <div class="current-weather-type-container">
+                  <div
+                    class="current-weather-type"
+                    id="current-weather-type"
+                  ></div>
                 </div>
               </div>
             </div>
@@ -82,7 +85,7 @@
                   />
                 </svg>
               </div>
-              <div class="detail-title">
+              <div class="detail-title-data">
                 <div class="detail-title">Humidity</div>
                 <div class="detail-data" id="humidity"></div>
               </div>
@@ -96,15 +99,23 @@
                   />
                 </svg>
               </div>
-              <div class="detail-title">
+              <div class="detail-title-data">
                 <div class="detail-title">UV</div>
                 <div class="detail-data" id="UV"></div>
               </div>
             </div>
           </div>
         </div>
+        <div class="toggle-units-container">
+          <div class="toggle-units" id="toggle-units" role="button">
+            Display in °F
+          </div>
+        </div>
       </div>
       <div class="weather-app-bottom">
+        <div class="forecast-heading-container">
+          <h2 class="forecast-heading">3 Day Forecast</h2>
+        </div>
         <div class="forecast-item">
           <div class="forecast-day" id="first-forecast-day"></div>
           <div class="forecast-high" id="first-forecast-high"></div>
