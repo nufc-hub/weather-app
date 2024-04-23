@@ -42,28 +42,16 @@
         <div class="weather-container">
           <div class="temperature-weather">
             <div class="temperature-number" id="temperature-number"></div>
-            <div class="weather-unit-icon">
+            <div class="current-weather">
               <img
                 src=""
                 class="current-weather-icon"
                 id="current-weather-icon"
               />
-              <div class="temperature-unit">
-                <div
-                  id="celsius-symbol"
-                  aria-label="°Celsius"
-                  aria-disabled="false"
-                >
-                  °C
-                </div>
-                <div>─</div>
-                <div
-                  id="fahrenheit-symbol"
-                  aria-label="°Fahrenheit"
-                  aria-disabled="true"
-                >
-                  °F
-                </div>
+              <div class="current-weather-type-container">
+                <div id="current-weather-type"></div>
+              </div>
+              <div class="toggle-untis-container">
                 <div class="toggle-units" id="toggle-units" role="button">
                   Display in °F
                 </div>
