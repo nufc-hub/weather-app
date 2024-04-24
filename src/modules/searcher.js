@@ -1,6 +1,7 @@
 class Searcher {
   constructor(elementID) {
-    this.searchElement = document.getElementById(elementID);
+    this.searchInput = document.getElementById(elementID);
+    this.searchIcon = document.getElementById(elementID);
 
     // Makes sure that the 'this' inside the onSearch function always refers to the instance of the Search class.
     this.onSearch = this.onSearch.bind(this);
@@ -8,22 +9,20 @@ class Searcher {
 
   // Gets value of search bar input.
   getSearchValue() {
-    return this.searchElement.value;
+    return this.searchInput.value;
   }
 
   // Clears the search bar.
   clearSearchValue() {
-    this.searchElement.value = '';
+    this.searchInput.value = '';
   }
 
   // Function to trigger search functionality.
   onSearch(callback) {
-    this.searchElement.addEventListener('keypress', (event) => {
+    this.searchInput.addEventListener('keypress', (event) => {
       if (event.key === 'Enter') {
         const searchValue = this.getSearchValue();
-        if (searchValue !== '') {
-          callback(searchValue);
-        }
+        callback(searchValue);
         this.clearSearchValue();
       }
     });

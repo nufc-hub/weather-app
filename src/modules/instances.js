@@ -16,7 +16,7 @@ import config from './config';
 function createInstances(selectors) {
   // Create class instances.
   // New Searcher instance. Search element added as argument.
-  const searcher = new Searcher(selectors.searchElement);
+  const searcher = new Searcher(selectors.searchInput, selectors.searchIcon);
   // New API instance. url and apiKey variables added as arguments
   const api = new API();
   // New UI instance. Selectors added as argument.

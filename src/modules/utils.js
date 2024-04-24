@@ -24,16 +24,13 @@ function getSelectors() {
     thirdForecastIcon: 'third-forecast-icon',
 
     // Search element.
-    searchElement: 'search',
+    searchInput: 'search',
+
+    // Search icon.
+    searchIcon: 'search-icon',
 
     // Error Element.
     errorElement: 'search-error-message',
-
-    // Celsius unit symbol.
-    celsiusSymbol: 'celsius-symbol',
-
-    // Fahrenheit unit symbol.
-    fahrenheitSymbol: 'fahrenheit-symbol',
 
     // Toggle units button.
     toggleUnits: 'toggle-units',
