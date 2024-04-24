@@ -6,7 +6,7 @@ import createInstances from './modules/instances';
 function init() {
   const selectors = getSelectors();
   const toggleButton = document.getElementById(selectors.toggleUnits);
-  console.log(toggleButton);
+
   // Create class instances.
   const { searcher, weatherManager } = createInstances(selectors);
 
@@ -15,8 +15,13 @@ function init() {
     weatherManager.loadDefaultWeather();
   });
 
-  // Add search event listener.
-  searcher.onSearch(() => {
+  // Add search enter event listener.
+  searcher.onSearchEnter(() => {
+    weatherManager.search();
+  });
+
+  // Add search icon click event listener.
+  searcher.onSearchClick(() => {
     weatherManager.search();
   });
 
