@@ -101,6 +101,10 @@ const updateMetricUI = {
       forecastDay[2].day.mintemp_c + ' °C'
     );
   },
+
+  updateUnitsSelector: function (ui) {
+    ui.updateTextContent('toggleUnits', 'Display in °F');
+  },
 };
 
 const updateImperialUI = {
@@ -147,6 +151,10 @@ const updateImperialUI = {
       'thirdForecastLow',
       forecastDay[2].day.mintemp_f + ' °C'
     );
+  },
+
+  updateUnitsSelector: function (ui) {
+    ui.updateTextContent('toggleUnits', 'Display in °C');
   },
 };
 
