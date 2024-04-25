@@ -2,6 +2,8 @@
 
 Welcome to the Weather App repository! This simple weather application allows users to check the current weather and forecast for any location around the world.
 
+[Live-App](https://nufc-hub.github.io/weather-app/)
+
 ## Features
 
 - Current Weather: View the current weather conditions including temperature, weather type, and more.
