@@ -16,12 +16,11 @@ body {
     var(--background-color-top),
     var(--background-color-bottom)
   );
-  /* background name: midnight blue */
-  /* Optionally, set the background size to cover the entire viewport */
+  /* Set the background size to cover the entire viewport */
   background-size: 100% 100%;
-  /* Optionally, prevent background repeat */
+  /* Prevent background repeat */
   background-repeat: no-repeat;
-  /* Optionally, fix the background position */
+  /* Fix the background position */
   background-attachment: fixed;
 }
 
