@@ -1,18 +1,29 @@
 class Validator {
-  constructor(errorElement) {
-    this.errorElement = this.errorElement =
-      document.getElementById(errorElement);
+  constructor(errorHandler) {
+    this.errorHandler = errorHandler;
   }
 
   // Function for search validation.
   validateSearch(searchValue) {
-    // If the search value is missing show error message and return false.
+    // If the user enters an empty value return false.
     if (!searchValue) {
-      this.errorElement.textContent = 'Please enter a valid city.';
+      this.errorHandler.displayError('Please enter a city name.');
       return false;
     } else {
       // If a search value is present return true.
-      this.errorElement.textContent = '';
+      return true;
+    }
+  }
+
+  validateSearchRegex(searchRegex, searchValue) {
+    // If user enters a search value that doesn't follow the set regex.
+    if (!searchRegex.test(searchValue)) {
+      this.errorHandler.displayError(
+        `Invalid location format. Please enter as 'City', 'City, State', 'City, Country' or 'Post/Zip code.`
+      );
+      return false;
+    } else {
+      // If search regex is valid return true.
       return true;
     }
   }
