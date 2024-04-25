@@ -1,20 +1,17 @@
 class UI {
-  constructor(selectorsIDs, selectorClasses) {
+  constructor(selectors) {
     this.elements = {};
 
-    for (const key in selectorsIDs) {
-      if (selectorsIDs.hasOwnProperty(key)) {
+    // Loops through selectors.
+    for (const key in selectors) {
+      // Gets all the element names from the selectors object.
+      if (selectors.hasOwnProperty(key)) {
         this.elements[key] = document.getElementById(selectors[key]);
-      }
-    }
-
-    for (const key in selectorClasses) {
-      if (selectorClasses.hasOwnProperty(key)) {
-        this.elements[key] = document.querySelectorAll(selectorClasses[key]);
       }
     }
   }
 
+  // Update element text content.
   updateTextContent(elementKey, newTextContent) {
     const element = this.elements[elementKey];
 
