@@ -64,7 +64,6 @@ function buildWeatherURL(config, searchValue) {
   const { weatherURL } = config;
   //  Build the URL
   const weatherDataURl = `${weatherURL.weatherForecastURL}?key=${weatherURL.apiKey}&q=${searchValue}&days=${weatherURL.days}`;
-  console.log(weatherDataURl);
   return weatherDataURl;
 }
 
