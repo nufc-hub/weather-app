@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -11,6 +12,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html', // Output filename
       template: path.resolve(__dirname, 'src', 'index.html'),
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: './src/assets/partly_cloudy_day_FILL0_wght400_GRAD0_opsz24.png',
+          to: path.resolve(__dirname, 'dist', 'assets'),
+        },
+      ],
     }),
   ],
   module: {
