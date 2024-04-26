@@ -16,7 +16,7 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: './src/assets/partly_cloudy_day_FILL0_wght400_GRAD0_opsz24.png',
+          from: './src/assets',
           to: path.resolve(__dirname, 'dist', 'assets'),
         },
       ],
