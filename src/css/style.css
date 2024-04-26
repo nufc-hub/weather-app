@@ -102,11 +102,6 @@ body {
   cursor: pointer;
 }
 
-.search-container:nth-child(1) svg {
-  height: 27px;
-  width: 27px;
-}
-
 .search-bar {
   min-width: inherit;
   background: transparent;
@@ -206,11 +201,6 @@ input:-webkit-autofill:active {
 
 .detail-icon {
   display: flex;
-}
-
-.detail-icon svg {
-  height: 50px;
-  width: auto;
 }
 
 .detail-title-data {
