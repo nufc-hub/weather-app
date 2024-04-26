@@ -55,10 +55,6 @@ class WeatherManager {
 
       // Add weather data to the constructor so it can be used by other functions.
       this.fetchedWeatherData = weatherData;
-      console.log(weatherData);
-      console.log(
-        this.dayGetter(weatherData.forecast.forecastday[0].date_epoch)
-      );
       // After receiving the weather data, update the UI.
       this.nonUnitUI(this.ui, weatherData, this.dayGetter, this.errorHandler);
       // If isMetric is false, show imperial units.
@@ -85,7 +81,6 @@ class WeatherManager {
     }
     // Get the search value.
     const searchValue = this.searcher.getSearchValue().trim();
-    console.log(searchValue);
     if (
       this.validator.validateSearch(searchValue) &&
       this.validator.validateSearchRegex(regex.searchRegex, searchValue)
@@ -99,11 +94,6 @@ class WeatherManager {
 
         // Add weather data to the constructor so it can be used by other functions.
         this.fetchedWeatherData = weatherData;
-
-        console.log(weatherData);
-        console.log(
-          this.dayGetter(weatherData.forecast.forecastday[0].date_epoch)
-        );
         // After receiving the weather data, update the UI.
         this.nonUnitUI(this.ui, weatherData, this.dayGetter, this.errorHandler);
         if (!this.isMetric) {
