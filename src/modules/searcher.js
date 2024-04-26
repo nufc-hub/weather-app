@@ -32,7 +32,6 @@ class Searcher {
   // Function to trigger search functionality on search icon click.
   onSearchClick(callback) {
     this.searchIcon.addEventListener('click', (event) => {
-      console.log('click');
       const searchValue = this.getSearchValue();
       callback(searchValue);
       this.clearSearchValue();
